@@ -12,7 +12,7 @@ var config = {
 	storageBucket: "moviedatabase1212.appspot.com",
 	messagingSenderId: "469522124550"
 };
-
+// Get Data
 firebase.initializeApp(config);
 firebase.database().ref().child("users").once("value", function (snapshot) {
 	// For each user in the database
