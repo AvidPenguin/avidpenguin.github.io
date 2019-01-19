@@ -1,0 +1,101 @@
+html {
+	font-family: Verdana;
+}
+
+body {
+	padding: 0;
+	margin: 0;
+}
+
+.title {
+	cursor: pointer;
+	font-size: 24px;
+}
+
+.column-sub {
+  float: left;
+  width: 135px;
+  padding: 10px;
+  height: 100px;
+}
+
+.column {
+  float: left;
+  width: calc(100%-155px);
+  padding: 20px;
+  height: 100px;
+}
+
+.full {
+	width: 100%;
+}
+
+.hidden {
+	display: none;
+}
+
+.form {
+	width: 80%;
+	min-width: 1200px;
+	padding-left: 50px;
+}
+
+.cover {
+	width: 300px;
+	height: 420px;
+}
+
+.movieWrapper {
+	width: 300px;
+	height: 600px;
+	display: inline-block;
+	content-align: top;
+}
+
+.movieWrappers {
+	padding: 5px;
+}
+
+.movieTitle {
+	font-weight: bold;
+	height: 40px;
+	font-size: 18px;
+}
+
+.slidecontainer {
+  width: 100%;
+}
+
+.slider {
+  -webkit-appearance: none;
+  width: 100%;
+  height: 15px;
+  border-radius: 5px;
+  background: #d3d3d3;
+  outline: none;
+  opacity: 0.7;
+  -webkit-transition: .2s;
+  transition: opacity .2s;
+}
+
+.slider:hover {
+  opacity: 1;
+}
+
+.slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  background: #4CAF50;
+  cursor: pointer;
+}
+
+.slider::-moz-range-thumb {
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  background: #4CAF50;
+  cursor: pointer;
+}

@@ -1,0 +1,124 @@
+<html>
+<head>
+<!-- JavaScript Files -->
+<script src="https://www.gstatic.com/firebasejs/5.7.0/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/5.7.0/firebase-database.js"></script>
+<script src="https://www.gstatic.com/firebasejs/5.7.2/firebase.js"</script>
+<script>
+  // For some reason, having this empty tag makes the main JS work. IDEK
+</script>
+<!-- Style Sheets -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+<link rel="stylesheet" type="text/css" href="style.css">
+
+</head>
+<body>
+<!-------------------------------------------------------------->
+<!--                        NAV BAR                           -->
+<!-------------------------------------------------------------->
+<nav class="navbar sticky-top navbar-expand-lg navbar-dark bg-dark">
+  <a class="navbar-brand" href="#" onclick="ChangeView('main')">TheMovieDB</a>
+  <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navb">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navb">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item">
+        <a class="nav-link" href="#" onclick="ChangeView('movies')">Movies</a>
+      </li>
+      <li class="nav-item" id="navNewMovie">
+        <a class="nav-link" href="#" onclick="ChangeView('newmovie')">New Movie</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#" onclick="ChangeView('reviews')">Review List</a>
+      </li>
+      <li class="nav-item" id="navNewReview">
+        <a class="nav-link" href="#" onclick="ChangeView('newreview')">New Review</a>
+      </li>
+    </ul>
+    <form class="form-inline my-2 my-lg-0">
+      <input class="form-control mr-sm-2" type="text" placeholder="Currently Unavailable">
+      <button class="btn btn-success my-2 my-sm-0" type="button" DISABLED >Search</button>
+    </form>
+  </div>
+</nav>
+
+
+
+<!-------------------------------------------------------------->
+<!--                       MAIN PAGE                          -->
+<!-------------------------------------------------------------->
+<div id="main" class="full">
+<div id="latestMovie"></div>
+<div id="movieCount"></div>
+</div>
+<!-------------------------------------------------------------->
+<!--                       MOVIE LIST                         -->
+<!-------------------------------------------------------------->
+<div id="movies" class="full hidden"><br>
+ Sort by:  
+<a href="#" onclick="MovieListSortBy('Title')">Title</a>
+<a href="#" onclick="MovieListSortBy('Release')">Release Date</a>
+
+<div class="movieWrappers">
+<div id="movieList"></div>  <!-- Used to inject data from the database -->
+</div>
+</div>
+<!-------------------------------------------------------------->
+<!--                       NEW MOVIE                          -->
+<!-------------------------------------------------------------->
+<div id="newmovie" class="full hidden">
+
+<div class="form">
+<br>Movie ID must be all lowercase with no gaps, for example: captainamericacivilwar
+<br>Release Date must be XX/XX/XXXX, for example, 02/04/2017
+<br>If not then it will break lol
+<br><br>
+	<div class="input-group mb-3">
+	  <input id="newMovieID" type="text" class="form-control" placeholder="Movie ID" aria-label="Movie ID" aria-describedby="basic-addon2">
+	</div>
+	<div class="input-group mb-3">
+	  <input id="newMovieTitle" type="text" class="form-control" placeholder="Movie Title" aria-label="Movie Title" aria-describedby="basic-addon2">
+	</div>
+	<div class="input-group mb-3">
+	  <input id="newMovieDirector" type="text" class="form-control" placeholder="Director" aria-label="Director" aria-describedby="basic-addon2">
+	</div>
+	<div class="input-group mb-3">
+	  <input id="newMovieRelease" type="text" class="form-control" placeholder="Release Date" aria-label="Release Date" aria-describedby="basic-addon2">
+	</div>
+	<div class="input-group mb-3">
+	  <input id="newMovieIMDB" type="text" class="form-control" placeholder="IMDB Link" aria-label="IMDB Link" aria-describedby="basic-addon2">
+	</div>
+	<div class="input-group mb-3">
+	  <input id="newMovieImage" type="text" class="form-control" placeholder="Box Art Link" aria-label="Box Art Link" aria-describedby="basic-addon2">
+	</div>
+	<button class="btn btn-primary btn-lg" onclick="CheckNewMovie()">Check Input</button>
+	<button class="btn btn-success btn-lg" onclick="AddNewMovie()">Add Movie</button>
+	<div id="txtCheckMovie"></div>
+</div>
+	
+</div>
+<!-------------------------------------------------------------->
+<!--                       NEW REVIEW                         -->
+<!-------------------------------------------------------------->
+<div id="newreview" class="full hidden">
+	
+	<select class="form-control" id="newReviewSelect"></select>
+	
+	<div class="slidecontainer">
+	<input type="range" min="1" max="21" value="0" class="slider" id="myRange">
+	<p>Rating: <span id="demo">0</span></p>
+	</div>
+	
+	<select class="form-control" id="newReviewReviewer">
+	<option value="GeoNugget">GeoNugget</option>
+	<option value="AvidPenguin">AvidPenguin</option>
+	</select>
+	
+	<button class="btn btn-primary btn-lg" onclick="AddNewMovie()">Submit</button><br>
+</div>
+</body>
+
+<script src="script.js"></script><!--Has to be at the end for some reason-->
+</html>
