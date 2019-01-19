@@ -38,7 +38,7 @@
       </li>
     </ul>
     <form class="form-inline my-2 my-lg-0">
-      <input class="form-control mr-sm-2" type="text" placeholder="Currently Unavailable">
+      <input class="form-control mr-sm-2" type="text" placeholder="Currently Unavailable" DISABLED>
       <button class="btn btn-success my-2 my-sm-0" type="button" DISABLED >Search</button>
     </form>
   </div>
@@ -69,33 +69,38 @@
 <!--                       NEW MOVIE                          -->
 <!-------------------------------------------------------------->
 <div id="newmovie" class="full hidden">
-
+<br>
 <div class="form">
-<br>Movie ID must be all lowercase with no gaps, for example: captainamericacivilwar
-<br>Release Date must be XX/XX/XXXX, for example, 02/04/2017
-<br>If not then it will break lol
-<br><br>
+	<h1>Add New Movie to DB</h1>
+	<h4>Use this form to add a new movie to the database.</h4><br>
+		<small id="emailHelp" class="form-text text-muted">Must be unique, lowercase with no spaces, and between 2 and 128 characters | Example: captainamericacivilwar</small>
 	<div class="input-group mb-3">
-	  <input id="newMovieID" type="text" class="form-control" placeholder="Movie ID" aria-label="Movie ID" aria-describedby="basic-addon2">
+		<input id="newMovieID" type="text" class="form-control" placeholder="Movie ID" aria-label="Movie ID" aria-describedby="basic-addon2">
 	</div>
+		<small id="emailHelp" class="form-text text-muted">Title of the movie, can include punctuation | Example: Captain America: Civil War</small>
 	<div class="input-group mb-3">
 	  <input id="newMovieTitle" type="text" class="form-control" placeholder="Movie Title" aria-label="Movie Title" aria-describedby="basic-addon2">
 	</div>
+		<small id="emailHelp" class="form-text text-muted">Director(s) of the movie, can include punctuation | Example: Joe Russo, Anthony Russo</small>
 	<div class="input-group mb-3">
 	  <input id="newMovieDirector" type="text" class="form-control" placeholder="Director" aria-label="Director" aria-describedby="basic-addon2">
 	</div>
+		<small id="emailHelp" class="form-text text-muted">Must use full date format as DD/MM/YYYY | Example: 01/02/2003</small>
 	<div class="input-group mb-3">
-	  <input id="newMovieRelease" type="text" class="form-control" placeholder="Release Date" aria-label="Release Date" aria-describedby="basic-addon2">
+	  <input id="newMovieRelease" maxlength="10" type="text" class="form-control" placeholder="Release Date" aria-label="Release Date" aria-describedby="basic-addon2">
 	</div>
+		<small id="emailHelp" class="form-text text-muted">Link to the IMDB Page, no URL extensions | Example: https://www.imdb.com/title/tt3498820/</small>
 	<div class="input-group mb-3">
 	  <input id="newMovieIMDB" type="text" class="form-control" placeholder="IMDB Link" aria-label="IMDB Link" aria-describedby="basic-addon2">
 	</div>
+		<small id="emailHelp" class="form-text text-muted">Direct link to the box art image | Use the check input button to display the image below</small>
 	<div class="input-group mb-3">
 	  <input id="newMovieImage" type="text" class="form-control" placeholder="Box Art Link" aria-label="Box Art Link" aria-describedby="basic-addon2">
 	</div>
 	<button class="btn btn-primary btn-lg" onclick="CheckNewMovie()">Check Input</button>
 	<button class="btn btn-success btn-lg" onclick="AddNewMovie()">Add Movie</button>
-	<div id="txtCheckMovie"></div>
+	<div id="CheckMovieErrors"></div>
+	<img id="CheckMovieImage" class="movieImagePreview">
 </div>
 	
 </div>

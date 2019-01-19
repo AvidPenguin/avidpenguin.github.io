@@ -103,7 +103,9 @@ function UpdateMovieList()
 				movies[i].release.toDateString().substring(4) +
 				"</p><a href='" + 
 				movies[i].imdb +
-				"' class='btn btn-primary'>IMDB Link</a></div><span>  </span>";
+				"' class='btn btn-primary'>IMDB Link</a><span> </span><button class='btn btn-primary' onclick=\"AddReview('" + 
+				movies[i].id +
+				"')\">Add Review</button></div><span> </span>";
 		
 		}
 	}
@@ -195,4 +197,36 @@ function writeUserData(id,t,d,r,im,img) // ID, Title, Director, Release Date (DD
 function ReloadPage()
 {
 	location.reload();
+}
+
+function CheckNewMovie()
+{
+	var id = document.getElementById("newMovieID").value;
+	var t = document.getElementById("newMovieTitle").value;
+	var d = document.getElementById("newMovieDirector").value;
+	var r = document.getElementById("newMovieRelease").value;
+	var im = document.getElementById("newMovieIMDB").value;
+	var img = document.getElementById("newMovieImage").value;
+	var imgPreview = document.getElementById("CheckMovieImage");
+	var errors = document.getElementById("CheckMovieErrors");
+	//errors.innerHTML = "";
+	
+	if(id.length < 2)
+	{
+		errors.innerHTML += "<br>Movie ID is too short";
+	}
+	if(t.length < 1)
+	{
+		errors.innerHTML += "<br>Title is blank";
+	}
+	if(d.length < 1)
+	{
+		errors.innerHTML += "<br>Director Name is blank";
+	}
+	if(r.length != 10)
+	{
+		errors.innerHTML += "<br>Release Date is incorrect";
+	}
+		
+		imgPreview.src = img;
 }
