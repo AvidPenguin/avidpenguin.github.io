@@ -209,7 +209,7 @@ function CheckNewMovie()
 	var img = document.getElementById("newMovieImage").value;
 	var imgPreview = document.getElementById("CheckMovieImage");
 	var errors = document.getElementById("CheckMovieErrors");
-	//errors.innerHTML = "";
+	errors.innerHTML = "";
 	
 	if(id.length < 2)
 	{
