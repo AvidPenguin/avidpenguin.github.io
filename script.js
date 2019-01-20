@@ -1,7 +1,6 @@
 var users = [];
 var movies = [];
-var showUnrleased = true;
-var movieCount = 0;
+var showUnreleased = true;
 
 // Initialize Firebase
 var config = {
@@ -40,8 +39,6 @@ firebase.database().ref().child("movies").once("value", function (snapshot3) {
 			movies.push(newMovie);
 			//
 			UpdateMovieList();
-			document.getElementById('latestMovie').innerHTML="Newest Movie: "+data.title;
-			document.getElementById('movieCount').innerHTML="Movies in Database: "+movies.length;
 		});
 	})
 });
@@ -103,7 +100,7 @@ function UpdateMovieList()
 				movies[i].release.toDateString().substring(4) +
 				"</p><a href='" + 
 				movies[i].imdb +
-				"' class='btn btn-primary'>IMDB Link</a><span> </span><button class='btn btn-primary' onclick=\"AddReview('" + 
+				"' class='btn btn-primary' target='_blank'>IMDB Link</a><span> </span><button class='btn btn-primary' onclick=\"AddReview('" + 
 				movies[i].id +
 				"')\">Add Review</button></div><span> </span>";
 		
@@ -113,14 +110,14 @@ function UpdateMovieList()
 
 function ChangeView(loc)
 {
-	document.getElementById("main").classList.add("hidden");
 	document.getElementById("movies").classList.add("hidden");
 	document.getElementById("newmovie").classList.add("hidden");
 	document.getElementById("newreview").classList.add("hidden");
+	document.getElementById("register").classList.add("hidden");
 	
 	switch(loc) {
 	  case 'home':
-		document.getElementById("main").classList.remove("hidden");
+		document.getElementById("movies").classList.remove("hidden");
 		break;
 	  case 'newmovie':
 		document.getElementById("newmovie").classList.remove("hidden");
@@ -128,11 +125,14 @@ function ChangeView(loc)
 	  case 'newreview':
 		document.getElementById("newreview").classList.remove("hidden");
 		break;
+	  case 'register':
+		document.getElementById("register").classList.remove("hidden");
+		break;
 	  case 'movies':
 		document.getElementById("movies").classList.remove("hidden");
 		break;
 	  default:
-		document.getElementById("main").classList.remove("hidden");
+		document.getElementById("movies").classList.remove("hidden");
 		break;
 	}
 }
@@ -222,10 +222,6 @@ function CheckNewMovie()
 	if(d.length < 1)
 	{
 		errors.innerHTML += "<br>Director Name is blank";
-	}
-	if(r.length != 10)
-	{
-		errors.innerHTML += "<br>Release Date is incorrect";
 	}
 		
 		imgPreview.src = img;

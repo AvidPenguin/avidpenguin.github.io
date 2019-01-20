@@ -3,7 +3,7 @@
 <!-- JavaScript Files -->
 <script src="https://www.gstatic.com/firebasejs/5.7.0/firebase-app.js"></script>
 <script src="https://www.gstatic.com/firebasejs/5.7.0/firebase-database.js"></script>
-<script src="https://www.gstatic.com/firebasejs/5.7.2/firebase.js"</script>
+<script src="https://www.gstatic.com/firebasejs/5.7.2/firebase.js"</script
 <script>
   // For some reason, having this empty tag makes the main JS work. IDEK
 </script>
@@ -16,16 +16,13 @@
 <!-------------------------------------------------------------->
 <!--                        NAV BAR                           -->
 <!-------------------------------------------------------------->
-<nav class="navbar sticky-top navbar-expand-lg navbar-dark bg-dark">
-  <a class="navbar-brand" href="#" onclick="ChangeView('main')">TheMovieDB</a>
-  <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navb">
-    <span class="navbar-toggler-icon"></span>
-  </button>
+<nav class="navbar navbar-expand-lg sticky-top navbar-dark bg-dark" style="padding: 6px;" >
+  <a class="navbar-brand" href="#" onclick="ChangeView('movies')">TheMovieDB</a>
 
-  <div class="collapse navbar-collapse" id="navb">
+  <div class="navbar-collapse" id="navb">
     <ul class="navbar-nav mr-auto">
       <li class="nav-item">
-        <a class="nav-link" href="#" onclick="ChangeView('movies')">Movies</a>
+        <a class="nav-link" href="#" onclick="ChangeView('movies')">Movie List</a>
       </li>
       <li class="nav-item" id="navNewMovie">
         <a class="nav-link" href="#" onclick="ChangeView('newmovie')">New Movie</a>
@@ -37,27 +34,28 @@
         <a class="nav-link" href="#" onclick="ChangeView('newreview')">New Review</a>
       </li>
     </ul>
-    <form class="form-inline my-2 my-lg-0">
-      <input class="form-control mr-sm-2" type="text" placeholder="Currently Unavailable" DISABLED>
-      <button class="btn btn-success my-2 my-sm-0" type="button" DISABLED >Search</button>
+    <form class="form-inline my-2 my-lg-0" id="navLogIn">
+      <input class="form-control mr-sm-2" type="text" placeholder="Username" DISABLED>
+      <input class="form-control mr-sm-2" type="text" placeholder="Password" DISABLED>
+      <button style="margin: 5px;" class="btn btn-success my-2 my-sm-0" type="button" DISABLED >Login</button>
+      <button style="margin: 5px;" class="btn btn-primary my-2 my-sm-0" type="button" onclick="ChangeView('register')" >Sign Up</button>
+    </form>
+    <form class="form-inline my-2 my-lg-0 hidden" id="navLogOut">
+      <p style="color: #AAA; padding-top: 12px; padding-right: 12px;">Logged in as AvidPenguin</p>
+      <button style="margin: 5px;" class="btn btn-primary my-2 my-sm-0" type="button" onclick="ChangeView('register')" >Log Out</button>
     </form>
   </div>
 </nav>
 
 
 
-<!-------------------------------------------------------------->
-<!--                       MAIN PAGE                          -->
-<!-------------------------------------------------------------->
-<div id="main" class="full">
-<div id="latestMovie"></div>
-<div id="movieCount"></div>
-</div>
+
 <!-------------------------------------------------------------->
 <!--                       MOVIE LIST                         -->
 <!-------------------------------------------------------------->
-<div id="movies" class="full hidden"><br>
- Sort by:  
+<div id="movies" class="full"><br>
+  
+<b style="padding-left: 5px;">Sort by: </b>
 <a href="#" onclick="MovieListSortBy('Title')">Title</a>
 <a href="#" onclick="MovieListSortBy('Release')">Release Date</a>
 
@@ -73,27 +71,27 @@
 <div class="form">
 	<h1>Add New Movie to DB</h1>
 	<h4>Use this form to add a new movie to the database.</h4><br>
-		<small id="emailHelp" class="form-text text-muted">Must be unique, lowercase with no spaces, and between 2 and 128 characters | Example: captainamericacivilwar</small>
+		<small class="form-text text-muted">Must be unique, lowercase with no spaces, and between 2 and 128 characters | Example: captainamericacivilwar</small>
 	<div class="input-group mb-3">
 		<input id="newMovieID" type="text" class="form-control" placeholder="Movie ID" aria-label="Movie ID" aria-describedby="basic-addon2">
 	</div>
-		<small id="emailHelp" class="form-text text-muted">Title of the movie, can include punctuation | Example: Captain America: Civil War</small>
+		<small class="form-text text-muted">Title of the movie, can include punctuation | Example: Captain America: Civil War</small>
 	<div class="input-group mb-3">
 	  <input id="newMovieTitle" type="text" class="form-control" placeholder="Movie Title" aria-label="Movie Title" aria-describedby="basic-addon2">
 	</div>
-		<small id="emailHelp" class="form-text text-muted">Director(s) of the movie, can include punctuation | Example: Joe Russo, Anthony Russo</small>
+		<small class="form-text text-muted">Director(s) of the movie, can include punctuation | Example: Joe Russo, Anthony Russo</small>
 	<div class="input-group mb-3">
 	  <input id="newMovieDirector" type="text" class="form-control" placeholder="Director" aria-label="Director" aria-describedby="basic-addon2">
 	</div>
-		<small id="emailHelp" class="form-text text-muted">Must use full date format as DD/MM/YYYY | Example: 01/02/2003</small>
+		<small class="form-text text-muted">Must use full date format as DD/MM/YYYY | Example: 01/02/2003</small>
 	<div class="input-group mb-3">
 	  <input id="newMovieRelease" maxlength="10" type="text" class="form-control" placeholder="Release Date" aria-label="Release Date" aria-describedby="basic-addon2">
 	</div>
-		<small id="emailHelp" class="form-text text-muted">Link to the IMDB Page, no URL extensions | Example: https://www.imdb.com/title/tt3498820/</small>
+		<small class="form-text text-muted">Link to the IMDB Page, no URL extensions | Example: https://www.imdb.com/title/tt3498820/</small>
 	<div class="input-group mb-3">
 	  <input id="newMovieIMDB" type="text" class="form-control" placeholder="IMDB Link" aria-label="IMDB Link" aria-describedby="basic-addon2">
 	</div>
-		<small id="emailHelp" class="form-text text-muted">Direct link to the box art image | Use the check input button to display the image below</small>
+		<small class="form-text text-muted">Direct link to the box art image | Use the check input button to display the image below</small>
 	<div class="input-group mb-3">
 	  <input id="newMovieImage" type="text" class="form-control" placeholder="Box Art Link" aria-label="Box Art Link" aria-describedby="basic-addon2">
 	</div>
@@ -123,6 +121,61 @@
 	
 	<button class="btn btn-primary btn-lg" onclick="AddNewMovie()">Submit</button><br>
 </div>
+
+<!-------------------------------------------------------------->
+<!--                        REGISTER                          -->
+<!-------------------------------------------------------------->
+<div id="register" class="full hidden">
+<br>
+<div class="smallform">
+	<h1>Register for TheMovieDB</h1>
+	<h4>Creating an account allows you to leave ratings and reviews for movies</h4><br>
+		<small class="form-text text-muted">Username</small>
+	<div class="input-group mb-3">
+		<input id="newMovieID" type="text" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon2">
+	</div>
+		<small class="form-text text-muted">Email Address</small>
+	<div class="input-group mb-3">
+	  <input id="newMovieTitle" type="text" class="form-control" placeholder="Email Address" aria-label="Email Address" aria-describedby="basic-addon2">
+	</div>
+	<div class="input-group mb-3">
+	  <input id="newMovieDirector" type="text" class="form-control" placeholder="Confirm Email Address" aria-label="Confirm Email Address" aria-describedby="basic-addon2">
+	</div>
+		<small class="form-text text-muted">Password</small>
+	<div class="input-group mb-3">
+	  <input id="newMovieRelease" type="password" class="form-control" placeholder="Password" aria-label="Password" aria-describedby="basic-addon2">
+	</div>
+	<div class="input-group mb-3">
+	  <input id="newMovieIMDB" type="password" class="form-control" placeholder="Confirm Password" aria-label="Confirm Password" aria-describedby="basic-addon2">
+	</div>
+	<button class="btn btn-success btn-lg" onclick="Register()">Register</button>
+	<div id="RegisterErrors"></div>
+</div>
+</div>
+
+<!-------------------------------------------------------------->
+<!--                         MODAL                            -->
+<!-------------------------------------------------------------->
+  <div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog">
+    
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Modal Header</h4>
+        </div>
+        <div class="modal-body">
+          <p>Some text in the modal.</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+
 </body>
 
 <script src="script.js"></script><!--Has to be at the end for some reason-->

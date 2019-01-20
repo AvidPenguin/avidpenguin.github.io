@@ -12,20 +12,6 @@ body {
 	font-size: 24px;
 }
 
-.column-sub {
-  float: left;
-  width: 135px;
-  padding: 10px;
-  height: 100px;
-}
-
-.column {
-  float: left;
-  width: calc(100%-155px);
-  padding: 20px;
-  height: 100px;
-}
-
 .full {
 	width: 100%;
 }
@@ -37,6 +23,12 @@ body {
 .form {
 	width: 80%;
 	min-width: 1200px;
+	padding-left: 50px;
+}
+
+.smallform {
+	width: 40%;
+	min-width: 600px;
 	padding-left: 50px;
 }
 
