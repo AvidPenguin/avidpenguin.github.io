@@ -16,10 +16,12 @@
 <!-------------------------------------------------------------->
 <!--                        NAV BAR                           -->
 <!-------------------------------------------------------------->
-<nav class="navbar navbar-expand-lg sticky-top navbar-dark bg-dark" style="padding: 6px;" >
+<!--
+<nav class="navbar navbar-lg sticky-top navbar-dark bg-dark" style="padding: 6px;" >
+
   <a class="navbar-brand" href="#" onclick="ChangeView('movies')">TheMovieDB</a>
 
-  <div class="navbar-collapse" id="navb">
+  <div class="navbar" style="min-width: 1200px;"id="navb">
     <ul class="navbar-nav mr-auto">
       <li class="nav-item">
         <a class="nav-link" href="#" onclick="ChangeView('movies')">Movie List</a>
@@ -34,20 +36,27 @@
         <a class="nav-link" href="#" onclick="ChangeView('newreview')">New Review</a>
       </li>
     </ul>
-    <form class="form-inline my-2 my-lg-0" id="navLogIn">
+    
+  </div>
+</nav>
+-->
+<div class="nav">
+  <div class="column-l">
+  <img style="width: 40px; margin-right: 10px;" src="icon.png">
+  </div>
+  <div class="column-r">
+  <form class="form-inline my-2 my-lg-0"  style="float: right;" id="navLogIn">
       <input class="form-control mr-sm-2" type="text" placeholder="Username" DISABLED>
       <input class="form-control mr-sm-2" type="text" placeholder="Password" DISABLED>
       <button style="margin: 5px;" class="btn btn-success my-2 my-sm-0" type="button" DISABLED >Login</button>
       <button style="margin: 5px;" class="btn btn-primary my-2 my-sm-0" type="button" onclick="ChangeView('register')" >Sign Up</button>
     </form>
-    <form class="form-inline my-2 my-lg-0 hidden" id="navLogOut">
+    <form class="form-inline my-2 my-lg-0 hidden" style="float: right;" id="navLogOut">
       <p style="color: #AAA; padding-top: 12px; padding-right: 12px;">Logged in as AvidPenguin</p>
       <button style="margin: 5px;" class="btn btn-primary my-2 my-sm-0" type="button" onclick="ChangeView('register')" >Log Out</button>
     </form>
-  </div>
-</nav>
-
-
+	</div>
+</div>
 
 
 <!-------------------------------------------------------------->
@@ -97,7 +106,7 @@
 	</div>
 	<button class="btn btn-primary btn-lg" onclick="CheckNewMovie()">Check Input</button>
 	<button class="btn btn-success btn-lg" onclick="AddNewMovie()">Add Movie</button>
-	<div id="CheckMovieErrors"></div>
+	<div id="CheckMovieErrors"></div><!--Used to list errors-->
 	<img id="CheckMovieImage" class="movieImagePreview">
 </div>
 	
@@ -107,19 +116,6 @@
 <!-------------------------------------------------------------->
 <div id="newreview" class="full hidden">
 	
-	<select class="form-control" id="newReviewSelect"></select>
-	
-	<div class="slidecontainer">
-	<input type="range" min="1" max="21" value="0" class="slider" id="myRange">
-	<p>Rating: <span id="demo">0</span></p>
-	</div>
-	
-	<select class="form-control" id="newReviewReviewer">
-	<option value="GeoNugget">GeoNugget</option>
-	<option value="AvidPenguin">AvidPenguin</option>
-	</select>
-	
-	<button class="btn btn-primary btn-lg" onclick="AddNewMovie()">Submit</button><br>
 </div>
 
 <!-------------------------------------------------------------->
@@ -127,56 +123,33 @@
 <!-------------------------------------------------------------->
 <div id="register" class="full hidden">
 <br>
-<div class="smallform">
-	<h1>Register for TheMovieDB</h1>
-	<h4>Creating an account allows you to leave ratings and reviews for movies</h4><br>
+	<div class="smallform">
+		<h1>Register for TheMovieDB</h1>
+		<h4>Creating an account allows you to leave ratings and reviews for movies</h4><br>
 		<small class="form-text text-muted">Username</small>
-	<div class="input-group mb-3">
-		<input id="newMovieID" type="text" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon2">
-	</div>
+		<div class="input-group mb-3">
+		<input id="newUserUsername" type="text" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon2">
+		</div>
 		<small class="form-text text-muted">Email Address</small>
-	<div class="input-group mb-3">
-	  <input id="newMovieTitle" type="text" class="form-control" placeholder="Email Address" aria-label="Email Address" aria-describedby="basic-addon2">
-	</div>
-	<div class="input-group mb-3">
-	  <input id="newMovieDirector" type="text" class="form-control" placeholder="Confirm Email Address" aria-label="Confirm Email Address" aria-describedby="basic-addon2">
-	</div>
+		<div class="input-group mb-3">
+		<input id="newUserEmail" type="text" class="form-control" placeholder="Email Address" aria-label="Email Address" aria-describedby="basic-addon2">
+		</div>
+		<div class="input-group mb-3">
+		<input id="newUserEmail2" type="text" class="form-control" placeholder="Confirm Email Address" aria-label="Confirm Email Address" aria-describedby="basic-addon2">
+		</div>
 		<small class="form-text text-muted">Password</small>
-	<div class="input-group mb-3">
-	  <input id="newMovieRelease" type="password" class="form-control" placeholder="Password" aria-label="Password" aria-describedby="basic-addon2">
+		<div class="input-group mb-3">
+			<input id="newUserPassword" type="password" class="form-control" placeholder="Password" aria-label="Password" aria-describedby="basic-addon2">
+		</div>
+		<div class="input-group mb-3">
+			<input id="newUserPassword2" type="password" class="form-control" placeholder="Confirm Password" aria-label="Confirm Password" aria-describedby="basic-addon2">
+		</div>
+		<button class="btn btn-success btn-lg" onclick="AddNewUser()">Register</button>
+		<div id="RegisterErrors"></div><!--Used to list errors-->
 	</div>
-	<div class="input-group mb-3">
-	  <input id="newMovieIMDB" type="password" class="form-control" placeholder="Confirm Password" aria-label="Confirm Password" aria-describedby="basic-addon2">
-	</div>
-	<button class="btn btn-success btn-lg" onclick="Register()">Register</button>
-	<div id="RegisterErrors"></div>
 </div>
-</div>
-
-<!-------------------------------------------------------------->
-<!--                         MODAL                            -->
-<!-------------------------------------------------------------->
-  <div class="modal fade" id="myModal" role="dialog">
-    <div class="modal-dialog">
-    
-      <!-- Modal content-->
-      <div class="modal-content">
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal">&times;</button>
-          <h4 class="modal-title">Modal Header</h4>
-        </div>
-        <div class="modal-body">
-          <p>Some text in the modal.</p>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        </div>
-      </div>
-      
-    </div>
-  </div>
 
 </body>
 
-<script src="script.js"></script><!--Has to be at the end for some reason-->
+<script src="script.js"></script>
 </html>
