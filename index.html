@@ -1,5 +1,6 @@
 <html>
 <head>
+<title>Movie DB</title>
 <!-- JavaScript Files -->
 <script src="https://www.gstatic.com/firebasejs/5.7.0/firebase-app.js"></script>
 <script src="https://www.gstatic.com/firebasejs/5.7.0/firebase-database.js"></script>
@@ -8,7 +9,9 @@
   // For some reason, having this empty tag makes the main JS work. IDEK
 </script>
 <!-- Style Sheets -->
+<link rel="shortcut icon" type="image/png" href="icon.png">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
 <link rel="stylesheet" type="text/css" href="style.css">
 
 </head>
@@ -16,106 +19,120 @@
 <!-------------------------------------------------------------->
 <!--                        NAV BAR                           -->
 <!-------------------------------------------------------------->
-<!--
-<nav class="navbar navbar-lg sticky-top navbar-dark bg-dark" style="padding: 6px;" >
 
-  <a class="navbar-brand" href="#" onclick="ChangeView('movies')">TheMovieDB</a>
-
-  <div class="navbar" style="min-width: 1200px;"id="navb">
-    <ul class="navbar-nav mr-auto">
-      <li class="nav-item">
-        <a class="nav-link" href="#" onclick="ChangeView('movies')">Movie List</a>
-      </li>
-      <li class="nav-item" id="navNewMovie">
-        <a class="nav-link" href="#" onclick="ChangeView('newmovie')">New Movie</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="#" onclick="ChangeView('reviews')">Review List</a>
-      </li>
-      <li class="nav-item" id="navNewReview">
-        <a class="nav-link" href="#" onclick="ChangeView('newreview')">New Review</a>
-      </li>
-    </ul>
-    
-  </div>
-</nav>
--->
 <div class="nav">
   <div class="column-l">
-  <img style="width: 40px; margin-right: 10px;" src="icon.png">
+  <img style="width: 40px; margin-left: 10px; margin-right: 10px;" src="icon.png">
+  <button type="button" id="navTitle" class="btn btn-secondary navItem title" disabled>The Movie DB</button>
+  <button type="button" id="navMovies" class="btn btn-secondary navItem" onclick="ChangeView('movies')">Movies</button>
+  <button type="button" id="navReviews" class="btn btn-secondary navItem hidden" onclick="ChangeView('reviews')">Reviews</button>
+  <button type="button" id="navNewMovie" class="btn btn-secondary navItem hidden" onclick="ChangeView('newmovie')">New Movie</button>
+  <button type="button" id="navNewReview" class="btn btn-secondary navItem hidden" onclick="ChangeView('newreview')">New Review</button>
   </div>
   <div class="column-r">
   <form class="form-inline my-2 my-lg-0"  style="float: right;" id="navLogIn">
-      <input class="form-control mr-sm-2" type="text" placeholder="Username" DISABLED>
-      <input class="form-control mr-sm-2" type="text" placeholder="Password" DISABLED>
-      <button style="margin: 5px;" class="btn btn-success my-2 my-sm-0" type="button" DISABLED >Login</button>
-      <button style="margin: 5px;" class="btn btn-primary my-2 my-sm-0" type="button" onclick="ChangeView('register')" >Sign Up</button>
-    </form>
-    <form class="form-inline my-2 my-lg-0 hidden" style="float: right;" id="navLogOut">
-      <p style="color: #AAA; padding-top: 12px; padding-right: 12px;">Logged in as AvidPenguin</p>
-      <button style="margin: 5px;" class="btn btn-primary my-2 my-sm-0" type="button" onclick="ChangeView('register')" >Log Out</button>
+    <input class="form-control mr-sm-2" type="text" id="loginUser" placeholder="Username">
+    <input class="form-control mr-sm-2" type="password" id="loginPass" placeholder="Password">
+    <button style="margin: 5px;" class="btn btn-success my-2 my-sm-0" type="button" onclick="Login()" >Login</button>
+    <button style="margin: 5px;" class="btn btn-primary my-2 my-sm-0" type="button" onclick="ChangeView('register')" >Sign Up</button>
+   </form>
+   <form class="form-inline my-2 my-lg-0 hidden" style="float: right;" id="navLogOut">
+    <button type="button" id="navLIA" class="btn btn-secondary navItem" disabled>Logged in as</button>
+    <button style="margin: 5px;" class="btn btn-primary my-2 my-sm-0" type="button" onclick="Logout()" >Log Out</button>
     </form>
 	</div>
 </div>
-
+<br><br>
 
 <!-------------------------------------------------------------->
 <!--                       MOVIE LIST                         -->
 <!-------------------------------------------------------------->
 <div id="movies" class="full"><br>
-  
-<b style="padding-left: 5px;">Sort by: </b>
-<a href="#" onclick="MovieListSortBy('Title')">Title</a>
-<a href="#" onclick="MovieListSortBy('Release')">Release Date</a>
+<form class="form-inline my-2 my-lg-0" style="padding-bottom: 10px;">
+<button type="button" style="margin-left: 10px; margin-right: 10px;" onclick="ClearSearch()" class="btn btn-light">Clear Search</button>
+<input style="width: 600px;" class="form-control mr-sm-2" type="text" id="searchBox" placeholder="Search">
+<button type="button" onclick="Search()" class="btn btn-success">Search</button>
 
+
+<label style="margin-left: 30px; margin-right: 5px;"class="custom-select-label" for="custom-select">Sort by</label>
+<select onchange="UpdateSort()" id="selectSort" style="width: 200px;" class="custom-select">
+  <option value="0">Title | A-Z</option>
+  <option value="1">Title | Z-A</option>
+  <option value="2">Release | Old-New</option>
+  <option value="3">Release | New-Old</option>
+</select>
+</form>
 <div class="movieWrappers">
 <div id="movieList"></div>  <!-- Used to inject data from the database -->
 </div>
+</div>
+<!-------------------------------------------------------------->
+<!--                       REVIEW LIST                        -->
+<!-------------------------------------------------------------->
+<div id="movies" class="full"><br>
+
 </div>
 <!-------------------------------------------------------------->
 <!--                       NEW MOVIE                          -->
 <!-------------------------------------------------------------->
 <div id="newmovie" class="full hidden">
 <br>
-<div class="form">
-	<h1>Add New Movie to DB</h1>
-	<h4>Use this form to add a new movie to the database.</h4><br>
-		<small class="form-text text-muted">Must be unique, lowercase with no spaces, and between 2 and 128 characters | Example: captainamericacivilwar</small>
-	<div class="input-group mb-3">
-		<input id="newMovieID" type="text" class="form-control" placeholder="Movie ID" aria-label="Movie ID" aria-describedby="basic-addon2">
+	<div class="form">
+		<h1>Add New Movie to DB</h1>
+		<h4>Use this form to add a new movie to the database.</h4><br>
+			<small class="form-text text-muted">Must be unique, lowercase with no spaces, and between 2 and 128 characters | Example: captainamericacivilwar</small>
+		<div class="input-group mb-3">
+			<input id="newMovieID" type="text" class="form-control" placeholder="Movie ID" aria-label="Movie ID" aria-describedby="basic-addon2">
+		</div>
+			<small class="form-text text-muted">Title of the movie, can include punctuation | Example: Captain America: Civil War</small>
+		<div class="input-group mb-3">
+		  <input id="newMovieTitle" type="text" class="form-control" placeholder="Movie Title" aria-label="Movie Title" aria-describedby="basic-addon2">
+		</div>
+			<small class="form-text text-muted">Director(s) of the movie, can include punctuation | Example: Joe Russo, Anthony Russo</small>
+		<div class="input-group mb-3">
+		  <input id="newMovieDirector" type="text" class="form-control" placeholder="Director" aria-label="Director" aria-describedby="basic-addon2">
+		</div>
+			<small class="form-text text-muted">Must use full date format as DD/MM/YYYY | Example: 01/02/2003</small>
+		<div class="input-group mb-3">
+		  <input id="newMovieRelease" maxlength="10" type="text" class="form-control" placeholder="Release Date" aria-label="Release Date" aria-describedby="basic-addon2">
+		</div>
+			<small class="form-text text-muted">Link to the IMDB Page, no URL extensions | Example: https://www.imdb.com/title/tt3498820/</small>
+		<div class="input-group mb-3">
+		  <input id="newMovieIMDB" type="text" class="form-control" placeholder="IMDB Link" aria-label="IMDB Link" aria-describedby="basic-addon2">
+		</div>
+			<small class="form-text text-muted">Direct link to the box art image | Use the check input button to display the image below</small>
+		<div class="input-group mb-3">
+		  <input id="newMovieImage" type="text" class="form-control" placeholder="Box Art Link" aria-label="Box Art Link" aria-describedby="basic-addon2">
+		</div>
+		<button class="btn btn-primary btn-lg" onclick="CheckNewMovie()">Check Input</button>
+		<button class="btn btn-success btn-lg" onclick="AddNewMovie()">Add Movie</button>
+		<div id="CheckMovieErrors"></div><!--Used to list errors-->
+		<img id="CheckMovieImage" class="movieImagePreview">
 	</div>
-		<small class="form-text text-muted">Title of the movie, can include punctuation | Example: Captain America: Civil War</small>
-	<div class="input-group mb-3">
-	  <input id="newMovieTitle" type="text" class="form-control" placeholder="Movie Title" aria-label="Movie Title" aria-describedby="basic-addon2">
-	</div>
-		<small class="form-text text-muted">Director(s) of the movie, can include punctuation | Example: Joe Russo, Anthony Russo</small>
-	<div class="input-group mb-3">
-	  <input id="newMovieDirector" type="text" class="form-control" placeholder="Director" aria-label="Director" aria-describedby="basic-addon2">
-	</div>
-		<small class="form-text text-muted">Must use full date format as DD/MM/YYYY | Example: 01/02/2003</small>
-	<div class="input-group mb-3">
-	  <input id="newMovieRelease" maxlength="10" type="text" class="form-control" placeholder="Release Date" aria-label="Release Date" aria-describedby="basic-addon2">
-	</div>
-		<small class="form-text text-muted">Link to the IMDB Page, no URL extensions | Example: https://www.imdb.com/title/tt3498820/</small>
-	<div class="input-group mb-3">
-	  <input id="newMovieIMDB" type="text" class="form-control" placeholder="IMDB Link" aria-label="IMDB Link" aria-describedby="basic-addon2">
-	</div>
-		<small class="form-text text-muted">Direct link to the box art image | Use the check input button to display the image below</small>
-	<div class="input-group mb-3">
-	  <input id="newMovieImage" type="text" class="form-control" placeholder="Box Art Link" aria-label="Box Art Link" aria-describedby="basic-addon2">
-	</div>
-	<button class="btn btn-primary btn-lg" onclick="CheckNewMovie()">Check Input</button>
-	<button class="btn btn-success btn-lg" onclick="AddNewMovie()">Add Movie</button>
-	<div id="CheckMovieErrors"></div><!--Used to list errors-->
-	<img id="CheckMovieImage" class="movieImagePreview">
-</div>
 	
 </div>
 <!-------------------------------------------------------------->
 <!--                       NEW REVIEW                         -->
 <!-------------------------------------------------------------->
 <div id="newreview" class="full hidden">
-	
+	<br>
+	<div class="form">
+		<h1>Add New Review</h1>
+		<h4>Use this form to add a new review to the database.</h4><br>
+			<small class="form-text text-muted">Select a movie from the list below.</small>
+		<div class="input-group mb-3">
+		  <select id="newReviewMovie" style="width: 200px;" placeholder="Movie" aria-label="Movie" aria-describedby="basic-addon2" class="custom-select"></select>
+		</div>
+			<small class="form-text text-muted">Rating 0-10</small>
+		<div class="input-group mb-3">
+		  <input id="newReviewRating" type="number" min="0" max="10" step="0.5" value="5" id="newReview" class="form-control" placeholder="Rating" aria-label="Rating" aria-describedby="basic-addon2">
+		</div>
+			<small class="form-text text-muted">Review of the Movie</small>
+		<div class="input-group mb-3">
+		  <textarea id="newReviewText" type="text" class="form-control" placeholder="Review" aria-label="Review" aria-describedby="basic-addon2"></textarea>
+		</div>
+		<button class="btn btn-success btn-lg" onclick="AddNewReview()">Add Review</button>
+	</div>
 </div>
 
 <!-------------------------------------------------------------->
