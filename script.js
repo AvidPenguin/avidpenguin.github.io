@@ -66,7 +66,59 @@ firebase.database().ref().child("reviews").once("value", function (snapshot5) {
 	})
 });
 
+function RefreshDatabases()
+{
+users = [];
+movies = [];
+reviews = [];	
 
+	firebase.database().ref().child("users").once("value", function (snapshot) {
+	// For each user in the database
+	snapshot.forEach(function (child) {   
+		firebase.database().ref('/users/' + child.key).once('value').then(function (snapshot2) {
+			// 
+			data = snapshot2.val();
+			// 
+			var newUser = new User(data.username, data.email, data.password);
+			// 
+			users.push(newUser);
+		});
+	})
+});
+firebase.database().ref().child("movies").once("value", function (snapshot3) {
+	// For each movie in the database
+	snapshot3.forEach(function (child) {   
+		firebase.database().ref('/movies/' + child.key).once('value').then(function (snapshot4) {
+			// 
+			movieCount++;
+			//
+			data = snapshot4.val();
+			// 
+			var date = new Date(data.release.substring(6,12),data.release.substring(3,5),data.release.substring(0,2));
+			//
+			var newMovie = new Movie(child.key, data.title, data.director, date, data.imdb, data.image);
+			movies.push(newMovie);
+			//
+			UpdateUI();
+		});
+	})
+});
+firebase.database().ref().child("reviews").once("value", function (snapshot5) {
+	// For each movie in the database
+	snapshot5.forEach(function (child) {   
+		firebase.database().ref('/reviews/' + child.key).once('value').then(function (snapshot6) {
+			// 
+			data = snapshot6.val();
+			//
+			var newReview = new Review(child.key, data.movie, data.rating, data.review, data.user);
+			reviews.push(newReview);
+			//
+			UpdateUI();
+		});
+	})
+});
+
+}
 
 
 function User(n,e,p) // Username, Email, Password
@@ -164,66 +216,131 @@ function UpdateUI()
 				{
 					var reviewsForThisMovie = [];
 					var totalRating = 0;
+					var userReviewedThis = false;
 					for (j = 0; j < reviews.length; j++) //  For each review in the database
 					{
 						if(movies[i].id == reviews[j].movie)
 						{
 							reviewsForThisMovie.push(reviews[j].rating);
 							totalRating += reviews[j].rating;
+							if(reviews[j].user == user.name)
+							{
+								userReviewedThis = true;
+							}
 						}
+						
 					}
 					
 					if(reviewsForThisMovie.length > 0)
 					{
-						var avg = totalRating/reviewsForThisMovie.length;
-						document.getElementById("movieList").innerHTML +=
-						"<div class='movieWrapper'><img class='cover' src='" +
-						movies[i].image +
-						"' alt='" +
-						movies[i].title +  
-						" Cover'><p class='movieTitle'>" +
-						movies[i].title +
-						"</p><p class='movieText'>Director: " + 
-						movies[i].director +
-						"<br>Released: " + 
-						movies[i].release.toDateString().substring(4) +
-						"<br>Average Rating: " + avg + "/10 - " +
-						reviewsForThisMovie.length + " rating(s)" + 
-						"</p><a href='" + 
-						movies[i].imdb +
-						"' class='btn btn-primary' target='_blank'>IMDB Link</a><span> </span><button class='btn btn-primary' onclick=\"AddReview('" + 
-						movies[i].id +
-						"')\">Add Review</button></div><span> </span>";
-						
+						if(userReviewedThis)
+						{
+							var avg = totalRating/reviewsForThisMovie.length;
+							document.getElementById("movieList").innerHTML +=
+							"<div class='movieWrapper'><img class='cover' src='" +
+							movies[i].image +
+							"' alt='" +
+							movies[i].title +  
+							" Cover'><p class='movieTitle'>" +
+							movies[i].title +
+							"</p><p class='movieText'>Director: " + 
+							movies[i].director +
+							"<br>Released: " + 
+							movies[i].release.toDateString().substring(4) +
+							"<br>Average Rating: " + avg + "/10 - " +
+							reviewsForThisMovie.length + " rating(s)" + 
+							"</p><a href='" + 
+							movies[i].imdb +
+							"' class='btn btn-primary' target='_blank'>IMDB Link</a><span> </span><button class='btn btn-primary' onclick=\"EditReview('" + 
+							movies[i].id +
+							"')\">View Your Review</button></div><span> </span>";
+						}
+						else if (user == "")
+						{
+							var avg = totalRating/reviewsForThisMovie.length;
+							document.getElementById("movieList").innerHTML +=
+							"<div class='movieWrapper'><img class='cover' src='" +
+							movies[i].image +
+							"' alt='" +
+							movies[i].title +  
+							" Cover'><p class='movieTitle'>" +
+							movies[i].title +
+							"</p><p class='movieText'>Director: " + 
+							movies[i].director +
+							"<br>Released: " + 
+							movies[i].release.toDateString().substring(4) +
+							"<br>Average Rating: " + avg + "/10 - " +
+							reviewsForThisMovie.length + " rating(s)" + 
+							"</p><a href='" + 
+							movies[i].imdb +
+							"' class='btn btn-primary' target='_blank'>IMDB Link</a></div><span> </span>";
+						}
+						else
+						{
+							var avg = totalRating/reviewsForThisMovie.length;
+							document.getElementById("movieList").innerHTML +=
+							"<div class='movieWrapper'><img class='cover' src='" +
+							movies[i].image +
+							"' alt='" +
+							movies[i].title +  
+							" Cover'><p class='movieTitle'>" +
+							movies[i].title +
+							"</p><p class='movieText'>Director: " + 
+							movies[i].director +
+							"<br>Released: " + 
+							movies[i].release.toDateString().substring(4) +
+							"<br>Average Rating: " + avg + "/10 - " +
+							reviewsForThisMovie.length + " rating(s)" + 
+							"</p><a href='" + 
+							movies[i].imdb +
+							"' class='btn btn-primary' target='_blank'>IMDB Link</a><span> </span><button class='btn btn-primary' onclick=\"AddReview('" + 
+							movies[i].id +
+							"')\">Add Review</button></div><span> </span>";
+						}
 					}
 					else
 					{
-						document.getElementById("movieList").innerHTML +=
-					"<div class='movieWrapper'><img class='cover' src='" +
-					movies[i].image +
-					"' alt='" +
-					movies[i].title +  
-					" Cover'><p class='movieTitle'>" +
-					movies[i].title +
-					"</p><p class='movieText'>Director: " + 
-					movies[i].director +
-					"<br>Released: " + 
-					movies[i].release.toDateString().substring(4) +
-					"<br>No Ratings for this movie" + 
-					"</p><a href='" + 
-					movies[i].imdb +
-					"' class='btn btn-primary' target='_blank'>IMDB Link</a><span> </span><button class='btn btn-primary' onclick=\"AddReview('" + 
-					movies[i].id +
-					"')\">Add Review</button></div><span> </span>";
+						if (user == "")
+						{
+							
+							document.getElementById("movieList").innerHTML +=
+							"<div class='movieWrapper'><img class='cover' src='" +
+							movies[i].image +
+							"' alt='" +
+							movies[i].title +  
+							" Cover'><p class='movieTitle'>" +
+							movies[i].title +
+							"</p><p class='movieText'>Director: " + 
+							movies[i].director +
+							"<br>Released: " + 
+							movies[i].release.toDateString().substring(4) +
+							"<br>No ratings for this movie" + 
+							"</p><a href='" + 
+							movies[i].imdb +
+							"' class='btn btn-primary' target='_blank'>IMDB Link</a></div><span> </span>";
+						}
+						else
+						{
+							document.getElementById("movieList").innerHTML +=
+							"<div class='movieWrapper'><img class='cover' src='" +
+							movies[i].image +
+							"' alt='" +
+							movies[i].title +  
+							" Cover'><p class='movieTitle'>" +
+							movies[i].title +
+							"</p><p class='movieText'>Director: " + 
+							movies[i].director +
+							"<br>Released: " + 
+							movies[i].release.toDateString().substring(4) +
+							"<br>No ratings for this movie" + 
+							"</p><a href='" + 
+							movies[i].imdb +
+							"' class='btn btn-primary' target='_blank'>IMDB Link</a><span> </span><button class='btn btn-primary' onclick=\"AddReview('" + 
+							movies[i].id +
+							"')\">Add Review</button></div><span> </span>";
+						}
 					}
-					
-					
 				}
-				
-				
-				
-				
-			
 			}
 		}
 		else
@@ -421,7 +538,17 @@ function NewMovieToDB(id,t,d,r,im,img) // ID, Title, Director, Release Date (DD/
     if (error) {
       // The write failed...
     } else {
-		ReloadPage(); //Once the data was successfully passed, the page reloads.
+		document.getElementById("newMovieID").value = "";
+		document.getElementById("newMovieTitle").value = "";
+		document.getElementById("newMovieDirector").value = "";
+		document.getElementById("newMovieRelease").value = "";
+		document.getElementById("newMovieIMDB").value = "";
+		document.getElementById("newMovieImage").value = "";
+		document.getElementById("CheckMovieImage").src = "";
+		document.getElementById("CheckMovieErrors").innerHTML = "";
+		ChangeView("movies");
+		RefreshDatabases();
+		
     }
   });
 }
