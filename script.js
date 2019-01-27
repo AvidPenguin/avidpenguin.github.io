@@ -94,7 +94,7 @@ firebase.database().ref().child("movies").once("value", function (snapshot3) {
 			//
 			data = snapshot4.val();
 			// 
-			var date = new Date(data.release.substring(6,12),data.release.substring(3,5),data.release.substring(0,2));
+			var date = new Date(data.release.substring(6,12),data.release.substring(3,5)-1,data.release.substring(0,2));
 			//
 			var newMovie = new Movie(child.key, data.title, data.director, date, data.imdb, data.image);
 			movies.push(newMovie);
