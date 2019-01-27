@@ -412,29 +412,36 @@ function AddNewMovie()
 	var img = document.getElementById("newMovieImage").value;
 	
 	var error = false;
+	var errorcode = 0;
 	
 	if(id.length < 3){
 		error = true;
+		errorcode += "1.";
 	}
 	if(t.length < 3){
 		error = true;
+		errorcode += "2.";
 	}
 	if(d.length < 3){
 		error = true;
+		errorcode += "3.";
 	}
 	if(r.length < 3){
 		error = true;
+		errorcode += "4.";
 	}
 	if(im.length < 3){
 		error = true;
+		errorcode += "5.";
 	}
 	if(img.length < 3){
 		error = true;
+		errorcode += "6.";
 	}
 	
 	if(error)
 	{
-		alert("error");
+		alert("Error code: " + errorcode);
 	}
 	else
 	{
@@ -545,6 +552,8 @@ function NewMovieToDB(id,t,d,r,im,img) // ID, Title, Director, Release Date (DD/
 		document.getElementById("newMovieIMDB").value = "";
 		document.getElementById("newMovieImage").value = "";
 		document.getElementById("CheckMovieImage").src = "";
+		document.getElementById("CheckMovieImage").src = "";
+		document.getElementById("CheckMovieImage").classList.add("hidden");
 		document.getElementById("CheckMovieErrors").innerHTML = "";
 		ChangeView("movies");
 		RefreshDatabases();
@@ -637,10 +646,11 @@ function CheckNewMovie()
 	var d = document.getElementById("newMovieDirector").value;
 	var r = document.getElementById("newMovieRelease").value;
 	var im = document.getElementById("newMovieIMDB").value;
+	document.getElementById("CheckMovieImage").classList.remove("hidden");
 	var img = document.getElementById("newMovieImage").value;
 	var imgPreview = document.getElementById("CheckMovieImage");
 	var errors = document.getElementById("CheckMovieErrors");
-	//errors.innerHTML = "";
+	errors.innerHTML = "";
 	
 	if(id.length < 2)
 	{
@@ -654,8 +664,12 @@ function CheckNewMovie()
 	{
 		errors.innerHTML += "<br>Director Name is blank";
 	}
+	if(r.length != 10)
+	{
+		errors.innerHTML += "<br>Release date is incorrect. Must be DD/MM/YYYY";
+	}
 		
-		imgPreview.src = img;
+	imgPreview.src = img;
 }
 
 function ClearSearch()
@@ -677,4 +691,28 @@ function UpdateSort()
 {
 	sortOption = document.getElementById("selectSort").value;
 	UpdateUI();
+}
+
+function SuggestMovieID()
+{
+	var d = document.getElementById("newMovieTitle").value;
+	
+	
+	
+	document.getElementById("newMovieID").value = d.replace(/\s/g, '').replace(/\W/g, '').toLowerCase();;
+	
+}
+
+function SearchForIMDB()
+{
+	var t = document.getElementById("newMovieTitle").value;
+	if(t.length > 1)
+	{
+			
+		window.open("https://www.google.co.uk/search?q=imdb+" + t, '_blank');
+	}
+	else
+	{
+		alert("Title is required to attempt search");
+	}
 }

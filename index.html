@@ -80,13 +80,13 @@
 	<div class="form">
 		<h1>Add New Movie to DB</h1>
 		<h4>Use this form to add a new movie to the database.</h4><br>
-			<small class="form-text text-muted">Must be unique, lowercase with no spaces, and between 2 and 128 characters | Example: captainamericacivilwar</small>
-		<div class="input-group mb-3">
-			<input id="newMovieID" type="text" class="form-control" placeholder="Movie ID" aria-label="Movie ID" aria-describedby="basic-addon2">
-		</div>
 			<small class="form-text text-muted">Title of the movie, can include punctuation | Example: Captain America: Civil War</small>
 		<div class="input-group mb-3">
 		  <input id="newMovieTitle" type="text" class="form-control" placeholder="Movie Title" aria-label="Movie Title" aria-describedby="basic-addon2">
+		</div>
+			<small class="form-text text-muted">Must be unique, lowercase with no spaces, and between 2 and 128 characters | Example: captainamericacivilwar</small>
+		<div class="input-group mb-3">
+			<input id="newMovieID" type="text" class="form-control" placeholder="Movie ID" aria-label="Movie ID" aria-describedby="basic-addon2">
 		</div>
 			<small class="form-text text-muted">Director(s) of the movie, can include punctuation | Example: Joe Russo, Anthony Russo</small>
 		<div class="input-group mb-3">
@@ -106,6 +106,8 @@
 		</div>
 		<button class="btn btn-primary btn-lg" onclick="CheckNewMovie()">Check Input</button>
 		<button class="btn btn-success btn-lg" onclick="AddNewMovie()">Add Movie</button>
+		<button class="btn btn-success btn-lg" onclick="SuggestMovieID()">Suggest Movie ID</button>
+		<button class="btn btn-success btn-lg" onclick="SearchForIMDB()">Search for IMDB page</button>
 		<div id="CheckMovieErrors"></div><!--Used to list errors-->
 		<img id="CheckMovieImage" class="movieImagePreview">
 	</div>
