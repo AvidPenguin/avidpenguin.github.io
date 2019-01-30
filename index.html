@@ -31,12 +31,12 @@
   </div>
   <div class="column-r">
   <form class="form-inline my-2 my-lg-0"  style="float: right;" id="navLogIn">
-    <input class="form-control mr-sm-2" type="text" id="loginUser" placeholder="Username">
+    <input class="form-control mr-sm-2" type="text" id="loginUser" placeholder="Username" onsubmit="return false;">
     <input class="form-control mr-sm-2" type="password" id="loginPass" placeholder="Password">
     <button style="margin: 5px;" class="btn btn-success my-2 my-sm-0" type="button" onclick="Login()" >Login</button>
     <button style="margin: 5px;" class="btn btn-primary my-2 my-sm-0" type="button" onclick="ChangeView('register')" >Sign Up</button>
    </form>
-   <form class="form-inline my-2 my-lg-0 hidden" style="float: right;" id="navLogOut">
+   <form class="form-inline my-2 my-lg-0 hidden" style="float: right;" id="navLogOut" onsubmit="return false;">
     <button type="button" id="navLIA" class="btn btn-secondary navItem" disabled>Logged in as</button>
     <button style="margin: 5px;" class="btn btn-primary my-2 my-sm-0" type="button" onclick="Logout()" >Log Out</button>
     </form>
@@ -48,7 +48,7 @@
 <!--                       MOVIE LIST                         -->
 <!-------------------------------------------------------------->
 <div id="movies" class="full"><br>
-<form class="form-inline my-2 my-lg-0" style="padding-bottom: 10px;">
+<form class="form-inline my-2 my-lg-0" style="padding-bottom: 10px;" onsubmit="return false;">
 <button type="button" style="margin-left: 10px; margin-right: 10px;" onclick="ClearSearch()" class="btn btn-light">Clear Search</button>
 <input style="width: 600px;" class="form-control mr-sm-2" type="text" id="searchBox" placeholder="Search">
 <button type="button" onclick="Search()" class="btn btn-success">Search</button>
@@ -77,7 +77,7 @@
 <!-------------------------------------------------------------->
 <div id="newmovie" class="full hidden">
 <br>
-	<div class="form">
+	<div class="form" >
 		<h1>Add New Movie to DB</h1>
 		<h4>Use this form to add a new movie to the database.</h4><br>
 			<small class="form-text text-muted">Title of the movie, can include punctuation | Example: Captain America: Civil War</small>
