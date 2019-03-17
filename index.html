@@ -1,174 +1,57 @@
 <html>
 <head>
-<title>Movie DB</title>
-<!-- JavaScript Files -->
-<script src="https://www.gstatic.com/firebasejs/5.7.0/firebase-app.js"></script>
-<script src="https://www.gstatic.com/firebasejs/5.7.0/firebase-database.js"></script>
-<script src="https://www.gstatic.com/firebasejs/5.7.2/firebase.js"</script
-<script>
-  // For some reason, having this empty tag makes the main JS work. IDEK
-</script>
+<title>Movie Reviews</title>
 <!-- Style Sheets -->
 <link rel="shortcut icon" type="image/png" href="icon.png">
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-
+<link href="https://fonts.googleapis.com/css?family=Poppins" rel="stylesheet">
 <link rel="stylesheet" type="text/css" href="style.css">
-
 </head>
 <body>
-<!-------------------------------------------------------------->
-<!--                        NAV BAR                           -->
-<!-------------------------------------------------------------->
-
-<div class="nav">
-  <div class="column-l">
-  <img style="width: 40px; margin-left: 10px; margin-right: 10px;" src="icon.png">
-  <button type="button" id="navTitle" class="btn btn-secondary navItem title" disabled>The Movie DB</button>
-  <button type="button" id="navMovies" class="btn btn-secondary navItem" onclick="ChangeView('movies')">Movies</button>
-  <button type="button" id="navReviews" class="btn btn-secondary navItem hidden" onclick="ChangeView('reviews')">Reviews</button>
-  <button type="button" id="navNewMovie" class="btn btn-secondary navItem hidden" onclick="ChangeView('newmovie')">New Movie</button>
-  <button type="button" id="navNewReview" class="btn btn-secondary navItem hidden" onclick="ChangeView('newreview')">New Review</button>
-  </div>
-  <div class="column-r">
-  <form class="form-inline my-2 my-lg-0"  style="float: right;" id="navLogIn">
-    <input class="form-control mr-sm-2" type="text" id="loginUser" placeholder="Username" onsubmit="return false;">
-    <input class="form-control mr-sm-2" type="password" id="loginPass" placeholder="Password">
-    <button style="margin: 5px;" class="btn btn-success my-2 my-sm-0" type="button" onclick="Login()" >Login</button>
-    <button style="margin: 5px;" class="btn btn-primary my-2 my-sm-0" type="button" onclick="ChangeView('register')" >Sign Up</button>
-   </form>
-   <form class="form-inline my-2 my-lg-0 hidden" style="float: right;" id="navLogOut" onsubmit="return false;">
-    <button type="button" id="navLIA" class="btn btn-secondary navItem" disabled>Logged in as</button>
-    <button style="margin: 5px;" class="btn btn-primary my-2 my-sm-0" type="button" onclick="Logout()" >Log Out</button>
-    </form>
-	</div>
+<div class="moviePoster"><img class="movieImg" src="Images/IronMan2008.jpg">
+</div><div class="movieInfo">
+<b class="title">Iron Man</b><br>
+<b>Released: </b>2nd May 2008<br>
+<b>Directed by: </b> Jon Favreau<br>
+<b>Starring: </b><br>
+Robert Downey Jr - Tony Stark/Iron Man<br>Gwyneth Paltrow - Pepper Potts<br>Jeff Bridges - Obadiah Stane<br><br>
+<b>Rating: </b> 8/10<br>
+<img class="star" src="Star.png"><img class="star" src="Star.png"><img class="star" src="Star.png"><img class="star" src="Star.png"><img class="star" src="StarZero.png"><br>
 </div>
+<div class="review">
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum consectetur arcu leo, et semper sapien dictum id. Nam elementum orci ac elit vehicula, id pretium lorem dapibus. Proin cursus vulputate sapien, ac fermentum risus maximus nec. Nam elementum feugiat magna, et scelerisque turpis placerat non. Maecenas egestas lectus vel neque bibendum mollis. Duis efficitur, diam at tincidunt porta, tortor odio tincidunt augue, nec viverra urna velit in magna. Nunc vel dapibus leo, vel aliquam nulla. Morbi ullamcorper lorem rutrum, tempor dui ut, posuere dolor. Donec ornare felis facilisis purus molestie euismod. Praesent in nulla nec eros pharetra faucibus quis non lorem. Nulla facilisi. Nullam quis erat id libero mattis blandit eget at ex. Nulla ultricies turpis vitae nunc commodo, ac condimentum libero tincidunt. Integer eu dolor et mi feugiat iaculis ut sed arcu.
 <br><br>
-
-<!-------------------------------------------------------------->
-<!--                       MOVIE LIST                         -->
-<!-------------------------------------------------------------->
-<div id="movies" class="full"><br>
-<form class="form-inline my-2 my-lg-0" style="padding-bottom: 10px;" onsubmit="return false;">
-<button type="button" style="margin-left: 10px; margin-right: 10px;" onclick="ClearSearch()" class="btn btn-light">Clear Search</button>
-<input style="width: 600px;" class="form-control mr-sm-2" type="text" id="searchBox" placeholder="Search">
-<button type="button" onclick="Search()" class="btn btn-success">Search</button>
-
-
-<label style="margin-left: 30px; margin-right: 5px;"class="custom-select-label" for="custom-select">Sort by</label>
-<select onchange="UpdateSort()" id="selectSort" style="width: 200px;" class="custom-select">
-  <option value="0">Title | A-Z</option>
-  <option value="1">Title | Z-A</option>
-  <option value="2">Release | Old-New</option>
-  <option value="3">Release | New-Old</option>
-</select>
-</form>
-<div class="movieWrappers">
-<div id="movieList"></div>  <!-- Used to inject data from the database -->
-</div>
-</div>
-<!-------------------------------------------------------------->
-<!--                       REVIEW LIST                        -->
-<!-------------------------------------------------------------->
-<div id="reviews" class="full"><br>
-
-</div>
-<!-------------------------------------------------------------->
-<!--                       NEW MOVIE                          -->
-<!-------------------------------------------------------------->
-<div id="newmovie" class="full hidden">
-<br>
-	<div class="form" >
-		<h1>Add New Movie to DB</h1>
-		<h4>Use this form to add a new movie to the database.</h4><br>
-			<small class="form-text text-muted">Title of the movie, can include punctuation | Example: Captain America: Civil War</small>
-		<div class="input-group mb-3">
-		  <input id="newMovieTitle" type="text" class="form-control" placeholder="Movie Title" aria-label="Movie Title" aria-describedby="basic-addon2">
-		</div>
-			<small class="form-text text-muted">Must be unique, lowercase with no spaces, and between 2 and 128 characters | Example: captainamericacivilwar</small>
-		<div class="input-group mb-3">
-			<input id="newMovieID" type="text" class="form-control" placeholder="Movie ID" aria-label="Movie ID" aria-describedby="basic-addon2">
-		</div>
-			<small class="form-text text-muted">Director(s) of the movie, can include punctuation | Example: Joe Russo, Anthony Russo</small>
-		<div class="input-group mb-3">
-		  <input id="newMovieDirector" type="text" class="form-control" placeholder="Director" aria-label="Director" aria-describedby="basic-addon2">
-		</div>
-			<small class="form-text text-muted">Must use full date format as DD/MM/YYYY | Example: 01/02/2003</small>
-		<div class="input-group mb-3">
-		  <input id="newMovieRelease" maxlength="10" type="text" class="form-control" placeholder="Release Date" aria-label="Release Date" aria-describedby="basic-addon2">
-		</div>
-			<small class="form-text text-muted">Link to the IMDB Page, no URL extensions | Example: https://www.imdb.com/title/tt3498820/</small>
-		<div class="input-group mb-3">
-		  <input id="newMovieIMDB" type="text" class="form-control" placeholder="IMDB Link" aria-label="IMDB Link" aria-describedby="basic-addon2">
-		</div>
-			<small class="form-text text-muted">Direct link to the box art image | Use the check input button to display the image below</small>
-		<div class="input-group mb-3">
-		  <input id="newMovieImage" type="text" class="form-control" placeholder="Box Art Link" aria-label="Box Art Link" aria-describedby="basic-addon2">
-		</div>
-		<button class="btn btn-primary btn-lg" onclick="CheckNewMovie()">Check Input</button>
-		<button class="btn btn-success btn-lg" onclick="AddNewMovie()">Add Movie</button>
-		<button class="btn btn-success btn-lg" onclick="SuggestMovieID()">Suggest Movie ID</button>
-		<button class="btn btn-success btn-lg" onclick="SearchForIMDB()">Search for IMDB page</button>
-		<div id="CheckMovieErrors"></div><!--Used to list errors-->
-		<img id="CheckMovieImage" class="movieImagePreview">
-	</div>
-	
-</div>
-<!-------------------------------------------------------------->
-<!--                       NEW REVIEW                         -->
-<!-------------------------------------------------------------->
-<div id="newreview" class="full hidden">
-	<br>
-	<div class="form">
-		<h1>Add New Review</h1>
-		<h4>Use this form to add a new review to the database.</h4><br>
-			<small class="form-text text-muted">Select a movie from the list below.</small>
-		<div class="input-group mb-3">
-		  <select id="newReviewMovie" style="width: 200px;" placeholder="Movie" aria-label="Movie" aria-describedby="basic-addon2" class="custom-select"></select>
-		</div>
-			<small class="form-text text-muted">Rating 0-10</small>
-		<div class="input-group mb-3">
-		  <input id="newReviewRating" type="number" min="0" max="10" step="0.5" value="5" id="newReview" class="form-control" placeholder="Rating" aria-label="Rating" aria-describedby="basic-addon2">
-		</div>
-			<small class="form-text text-muted">Review of the Movie</small>
-		<div class="input-group mb-3">
-		  <textarea id="newReviewText" type="text" class="form-control" placeholder="Review" aria-label="Review" aria-describedby="basic-addon2"></textarea>
-		</div>
-		<button class="btn btn-success btn-lg" onclick="AddNewReview()">Add Review</button>
-	</div>
+Interdum et malesuada fames ac ante ipsum primis in faucibus. Donec fermentum, eros a porttitor efficitur, est magna vestibulum dolor, non convallis felis turpis in mauris. Nullam rhoncus vehicula mi quis molestie. Sed nulla dui, bibendum sit amet aliquet vitae, euismod non lacus. Aenean vestibulum, elit sed dapibus lacinia, lacus mi aliquam lacus, ac dictum enim lacus eu purus. Mauris ligula enim, viverra at aliquet sit amet, egestas rhoncus quam. Fusce ut dui eu mauris gravida feugiat. Proin in libero vehicula leo scelerisque vulputate.
+<br><br>
+Vestibulum vel convallis ipsum. Praesent egestas consectetur pulvinar. Mauris condimentum, velit vitae fringilla pharetra, neque diam laoreet orci, a bibendum enim mauris sit amet elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec porta dui at massa dapibus posuere. In hac habitasse platea dictumst. Sed vehicula scelerisque lobortis. Suspendisse euismod tellus sed libero pretium, vehicula feugiat ligula lobortis. Aenean malesuada venenatis risus, vitae congue sapien semper vitae. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.
+<br><br>
+Maecenas pellentesque efficitur nibh sed sodales. Duis semper vitae magna nec dignissim. Nullam et ipsum nibh. Integer ornare nisi nec imperdiet tempus. Morbi sodales, orci eget tristique vulputate, purus diam lacinia lorem, porttitor ultricies diam lorem vel quam. Curabitur sed nibh in lacus facilisis malesuada. Morbi volutpat dui sem, sit amet pharetra orci faucibus id. Quisque id mauris sit amet ipsum dictum ultrices ut et nisi. Ut ac metus ante. Curabitur vehicula suscipit dui sed sollicitudin. Proin sit amet augue tincidunt, feugiat sem a, blandit massa. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Donec sit amet fermentum purus. Duis ornare lectus libero, eu tincidunt magna auctor non.
+<br><br>
+In et nisl sit amet diam luctus efficitur. Nulla cursus neque metus, id luctus nunc aliquet ac. Aenean congue diam sit amet urna ornare aliquam. Donec pretium tortor ut semper maximus. Nam tincidunt tellus ac scelerisque hendrerit. Proin ac volutpat erat. Nulla at egestas magna, sed bibendum massa.
 </div>
 
-<!-------------------------------------------------------------->
-<!--                        REGISTER                          -->
-<!-------------------------------------------------------------->
-<div id="register" class="full hidden">
-<br>
-	<div class="smallform">
-		<h1>Register for TheMovieDB</h1>
-		<h4>Creating an account allows you to leave ratings and reviews for movies</h4><br>
-		<small class="form-text text-muted">Username</small>
-		<div class="input-group mb-3">
-		<input id="newUserUsername" type="text" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon2">
-		</div>
-		<small class="form-text text-muted">Email Address</small>
-		<div class="input-group mb-3">
-		<input id="newUserEmail" type="text" class="form-control" placeholder="Email Address" aria-label="Email Address" aria-describedby="basic-addon2">
-		</div>
-		<div class="input-group mb-3">
-		<input id="newUserEmail2" type="text" class="form-control" placeholder="Confirm Email Address" aria-label="Confirm Email Address" aria-describedby="basic-addon2">
-		</div>
-		<small class="form-text text-muted">Password</small>
-		<div class="input-group mb-3">
-			<input id="newUserPassword" type="password" class="form-control" placeholder="Password" aria-label="Password" aria-describedby="basic-addon2">
-		</div>
-		<div class="input-group mb-3">
-			<input id="newUserPassword2" type="password" class="form-control" placeholder="Confirm Password" aria-label="Confirm Password" aria-describedby="basic-addon2">
-		</div>
-		<button class="btn btn-success btn-lg" onclick="AddNewUser()">Register</button>
-		<div id="RegisterErrors"></div><!--Used to list errors-->
-	</div>
-</div>
+<br><hr><br>
 
+<div class="moviePoster"><img class="movieImg" src="Images/IncredibleHulk2008.jpg">
+</div><div class="movieInfo">
+<b style="font-size: 36px">The Incredible Hulk</b><br>
+<b>Released: </b>12 June 2008<br>
+<b>Director: </b> Louis Leterrier<br>
+<b>Starring: </b><br>
+Edward Norton - Bruce Banner/Hulk<br>Liv Tyler - Betty Ross<br>Tim Roth - Emil Blonsky<br>
+<b>Rating: </b> 6/10<br>
+<img class="star" src="Star.png"><img class="star" src="Star.png"><img class="star" src="Star.png"><img class="star" src="StarZero.png"><img class="star" src="StarZero.png">
+</div>
+<div class="review">
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum consectetur arcu leo, et semper sapien dictum id. Nam elementum orci ac elit vehicula, id pretium lorem dapibus. Proin cursus vulputate sapien, ac fermentum risus maximus nec. Nam elementum feugiat magna, et scelerisque turpis placerat non. Maecenas egestas lectus vel neque bibendum mollis. Duis efficitur, diam at tincidunt porta, tortor odio tincidunt augue, nec viverra urna velit in magna. Nunc vel dapibus leo, vel aliquam nulla. Morbi ullamcorper lorem rutrum, tempor dui ut, posuere dolor. Donec ornare felis facilisis purus molestie euismod. Praesent in nulla nec eros pharetra faucibus quis non lorem. Nulla facilisi. Nullam quis erat id libero mattis blandit eget at ex. Nulla ultricies turpis vitae nunc commodo, ac condimentum libero tincidunt. Integer eu dolor et mi feugiat iaculis ut sed arcu.
+<br><br>
+Interdum et malesuada fames ac ante ipsum primis in faucibus. Donec fermentum, eros a porttitor efficitur, est magna vestibulum dolor, non convallis felis turpis in mauris. Nullam rhoncus vehicula mi quis molestie. Sed nulla dui, bibendum sit amet aliquet vitae, euismod non lacus. Aenean vestibulum, elit sed dapibus lacinia, lacus mi aliquam lacus, ac dictum enim lacus eu purus. Mauris ligula enim, viverra at aliquet sit amet, egestas rhoncus quam. Fusce ut dui eu mauris gravida feugiat. Proin in libero vehicula leo scelerisque vulputate.
+<br><br>
+Vestibulum vel convallis ipsum. Praesent egestas consectetur pulvinar. Mauris condimentum, velit vitae fringilla pharetra, neque diam laoreet orci, a bibendum enim mauris sit amet elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec porta dui at massa dapibus posuere. In hac habitasse platea dictumst. Sed vehicula scelerisque lobortis. Suspendisse euismod tellus sed libero pretium, vehicula feugiat ligula lobortis. Aenean malesuada venenatis risus, vitae congue sapien semper vitae. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.
+<br><br>
+Maecenas pellentesque efficitur nibh sed sodales. Duis semper vitae magna nec dignissim. Nullam et ipsum nibh. Integer ornare nisi nec imperdiet tempus. Morbi sodales, orci eget tristique vulputate, purus diam lacinia lorem, porttitor ultricies diam lorem vel quam. Curabitur sed nibh in lacus facilisis malesuada. Morbi volutpat dui sem, sit amet pharetra orci faucibus id. Quisque id mauris sit amet ipsum dictum ultrices ut et nisi. Ut ac metus ante. Curabitur vehicula suscipit dui sed sollicitudin. Proin sit amet augue tincidunt, feugiat sem a, blandit massa. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Donec sit amet fermentum purus. Duis ornare lectus libero, eu tincidunt magna auctor non.
+<br><br>
+In et nisl sit amet diam luctus efficitur. Nulla cursus neque metus, id luctus nunc aliquet ac. Aenean congue diam sit amet urna ornare aliquam. Donec pretium tortor ut semper maximus. Nam tincidunt tellus ac scelerisque hendrerit. Proin ac volutpat erat. Nulla at egestas magna, sed bibendum massa.
+</div>
+    
 </body>
-
-<script src="script.js"></script>
 </html>
